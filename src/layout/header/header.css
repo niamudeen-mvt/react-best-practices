@@ -1,0 +1,14 @@
+.link {
+  text-decoration: none;
+  color: black;
+  font-size: 15px;
+  padding: 0;
+}
+
+.active {
+  text-decoration: none;
+  color: black;
+  font-weight: bolder;
+  font-size: 15px;
+  padding: 0;
+}
