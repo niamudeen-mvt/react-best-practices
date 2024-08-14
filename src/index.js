@@ -1,29 +1,29 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import "./style.css";
-import { store } from "./store";
-import { Provider } from "react-redux";
-import { ToastContainerNotification } from "./utils/notifications";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import './style.css';
+import { store } from './store';
+import { Provider } from 'react-redux';
+import { ToastContainerNotification } from './utils/notifications';
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const client = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      retry: 2,
-      retryDelay: 1000,
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+            retry: 2,
+            retryDelay: 1000,
+        },
     },
-  },
 });
 
 root.render(
-  <QueryClientProvider client={client}>
-    <Provider store={store}>
-      <App />
-      <ToastContainerNotification />
-    </Provider>
-  </QueryClientProvider>
+    <QueryClientProvider client={client}>
+        <Provider store={store}>
+            <App />
+            <ToastContainerNotification />
+        </Provider>
+    </QueryClientProvider>,
 );

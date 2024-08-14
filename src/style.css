@@ -1,43 +1,43 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-  font-family: "Poppins", sans-serif;
+body {
+    font-family: 'Poppins', sans-serif;
 }
 
-@layer utilities{
+@layer utilities {
+    .custom_container {
+        @apply container mx-auto  px-[8%];
+    }
 
-  .custom_container{
-    @apply container mx-auto  px-[8%] 
-  }
+    .flex_center {
+        @apply flex justify-center items-center;
+    }
 
-  .flex_center{
-    @apply flex justify-center items-center
-  }
+    .flex_between {
+        @apply flex justify-between items-center;
+    }
 
-  .flex_between{
-    @apply flex justify-between items-center
-  }
-
-  .btn{
-    @apply bg-black text-white text-xs py-3 px-8 rounded-lg shadow-lg capitalize cursor-pointer;
-  }
-
+    .btn {
+        @apply bg-black text-white text-xs py-3 px-8 rounded-lg shadow-lg capitalize cursor-pointer;
+    }
 }
-
 
 /*  for hiding the scrollbar */
 
-.hide_scrollbar{
-  scrollbar-width: none;  
+.hide_scrollbar {
+    scrollbar-width: none;
 }
 
+.sectionCustomHeight {
+    min-height: calc(100vh - 80px);
+}
