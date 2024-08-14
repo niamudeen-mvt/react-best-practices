@@ -1,40 +1,41 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateAuthUser, userlogout } from "../store/features/authSlice";
-import {
-  getDataFromLc,
-  removeDataFromLc,
-  setDataIntoLc,
-} from "../utils/helper";
-import { useEffect } from "react";
+import { getDataFromLc, removeDataFromLc } from "../utils/helper";
+import { useMutation } from "@tanstack/react-query";
+import axiosInstance from "../utils/axios";
 
 export default function useAuth() {
-  const authUser = useSelector((state) => state.authUser);
-
+  const authUser = useSelector((state) => state.authUser.user);
   const dispatch = useDispatch();
 
+  const { mutate, isPending: fetchingAuthUser } = useMutation({
+    mutationFn: async () => {
+      const response = await axiosInstance.get("/user");
+      return response?.user || {};
+    },
+    onSuccess: (user) => {
+      dispatch(updateAuthUser(user));
+    },
+  });
+
   useEffect(() => {
-    const isLoggedIn = getDataFromLc("isLoggedIn");
-
-    if (isLoggedIn) {
-      dispatch(updateAuthUser());
-    }
-  }, [dispatch]);
-
-  const handleUpdateAuth = () => {
-    dispatch(updateAuthUser());
-    setDataIntoLc("isLoggedIn", true);
-  };
+    mutate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleLogout = () => {
     dispatch(userlogout());
-    removeDataFromLc("isLoggedIn");
+    removeDataFromLc("token");
+    removeDataFromLc("userId");
   };
 
-  const isLoggedIn = authUser?.isLoggedIn;
+  const isLoggedIn = getDataFromLc("token");
 
   return {
     isLoggedIn,
-    handleUpdateAuth,
     handleLogout,
+    authUser,
+    fetchingAuthUser,
   };
 }

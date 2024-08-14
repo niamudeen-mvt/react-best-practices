@@ -31,6 +31,7 @@ body{
   .btn{
     @apply bg-black text-white text-xs py-3 px-8 rounded-lg shadow-lg capitalize cursor-pointer;
   }
+
 }
 
 

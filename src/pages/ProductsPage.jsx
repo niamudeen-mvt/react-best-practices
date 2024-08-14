@@ -63,7 +63,9 @@ export default function ProductsPage() {
           <Input
             type="text"
             value={searchTerm}
-            handleOnChange={handleOnChange} />
+            handleOnChange={handleOnChange}
+            placeholder="Search Products"
+          />
         </form>
       </div>
 

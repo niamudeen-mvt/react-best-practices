@@ -3,6 +3,10 @@ import Navbar from "./navbar";
 import useAuth from "../../hooks/useAuth";
 import { PRIVATE_ROUTES, PUBLIC_ROUTES } from "../../routes";
 
+
+
+
+
 export default function AppLayout() {
 
   const privateRoutes = PRIVATE_ROUTES.map(menu => menu.path)
@@ -15,6 +19,7 @@ export default function AppLayout() {
   if (!isLoggedIn && privateRoutes.includes(currentRoute)) return <Navigate to="/" />
 
   if (isLoggedIn && publicRoutes.includes(currentRoute)) return <Navigate to="/products" />
+
 
   return (
     <>

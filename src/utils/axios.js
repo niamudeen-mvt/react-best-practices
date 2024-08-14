@@ -1,9 +1,7 @@
 import axios from "axios";
-import { refreshToken } from "../services/api/user";
+import { getDataFromLc, setDataIntoLc } from "./helper";
 
-// const BASE_URL = "http://localhost:5000/api/v1";
-
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = "http://localhost:7000/api/v1";
 // const BASE_URL = "https://ecommerce-backend-jy6t.onrender.com/api/v1";
 
 const axiosInstance = axios.create({
@@ -13,20 +11,15 @@ const axiosInstance = axios.create({
   },
 });
 
-axiosInstance.interceptors.request.use(
-  async function (config) {
-    const access_token = sessionStorage.getItem("access_token");
-    if (config.url !== "/auth/login" && config.url !== "/auth/register") {
-      config.headers["Authorization"] = `Bearer ${access_token}`;
-    }
-    return config;
-  },
-  function (error) {
-    return Promise.reject(error);
+axiosInstance.interceptors.request.use(async function (config) {
+  const token = getDataFromLc("token");
+  if (!["/auth/login", "/auth/register"].includes(config.url)) {
+    config.headers["Authorization"] = `Bearer ${token}`;
   }
-);
+  return config;
+});
 
-let isRefreshing = false;
+let IS_REFRESHING = false;
 
 axiosInstance.interceptors.response.use(
   (response) => {
@@ -35,25 +28,29 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error?.response?.status === 401 && !isRefreshing) {
-      isRefreshing = true;
+    if (error?.response?.status === 401 && !IS_REFRESHING) {
+      IS_REFRESHING = true;
       try {
-        const refresh_token = sessionStorage.getItem("refresh_token");
+        const token = getDataFromLc("token");
+        const userId = getDataFromLc("userId");
 
-        const res = await refreshToken({
-          refresh_token,
-        });
-        if (res?.status === 200) {
-          sessionStorage.setItem("access_token", res?.data?.access_token);
+        const response = await axiosInstance.get(
+          `/auth/refresh-token/${userId}`,
+          {
+            refresh_token: token,
+          }
+        );
 
-          originalRequest.headers["Authorization"] =
-            "Bearer " + res.data.access_token;
+        if (response?.status === "SUCCESS") {
+          const token = response?.token;
+          setDataIntoLc("token", token);
+          originalRequest.headers["Authorization"] = "Bearer " + token;
           return axios(originalRequest);
         }
       } catch (refreshError) {
         console.error("Refresh token failed:", refreshError);
       } finally {
-        isRefreshing = false;
+        IS_REFRESHING = false;
       }
     }
     return Promise.reject(error);

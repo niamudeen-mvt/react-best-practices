@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./style.css";
 import { store } from "./store";
 import { Provider } from "react-redux";
+import { ToastContainerNotification } from "./utils/notifications";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -22,6 +23,7 @@ root.render(
   <QueryClientProvider client={client}>
     <Provider store={store}>
       <App />
+      <ToastContainerNotification />
     </Provider>
   </QueryClientProvider>
 );

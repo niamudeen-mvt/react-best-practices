@@ -11,7 +11,7 @@ import NavToggleButton from "./NavToggle";
 
 export default function Navbar() {
 
-  const { isLoggedIn, handleLogout, handleUpdateAuth } = useAuth()
+  const { isLoggedIn, handleLogout } = useAuth()
   const [isNavOpen, setIsNavOpen] = useState(false);
   const windowSize = useWindowSize();
 
@@ -49,18 +49,12 @@ export default function Navbar() {
               )}
 
             {
-              isLoggedIn ?
-                <button
-                  className="btn"
-                  onClick={handleLogout}
-                >Logout
-                </button>
-                :
-                <button
-                  className="btn"
-                  onClick={handleUpdateAuth}
-                >Login
-                </button>
+              isLoggedIn &&
+              <button
+                className="btn"
+                onClick={handleLogout}
+              >Logout
+              </button>
             }
           </ul>
         </nav>
