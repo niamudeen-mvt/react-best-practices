@@ -29,9 +29,9 @@ export const ALL_ROUTES = [
     },
 ];
 
-export const PRIVATE_ROUTES = ALL_ROUTES.filter(
-    (route) => route.isPrivate && !route.isHidden,
-);
+export const PRIVATE_ROUTES =
+    ALL_ROUTES &&
+    ALL_ROUTES.filter((route) => route.isPrivate && !route.isHidden);
 
 export const PUBLIC_ROUTES =
     ALL_ROUTES &&

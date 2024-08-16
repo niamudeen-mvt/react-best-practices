@@ -12,7 +12,7 @@ export default function Input({
             <input
                 type={type}
                 name={name}
-                className="w-full border border-black py-2 pl-4 rounded-md "
+                className="custom_input"
                 value={value}
                 onChange={handleOnChange}
                 placeholder={placeholder}

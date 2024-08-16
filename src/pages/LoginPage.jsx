@@ -1,28 +1,23 @@
-import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import Input from '../components/shared/Input';
-import { setDataIntoLc, VALIDATE_USER_DETAIL } from '../utils/helper';
+import { setDataIntoLc } from '../utils/helper';
 import { useMutation } from '@tanstack/react-query';
 import axiosInstance from '../utils/axios';
 import { updateAuthUser } from '../store/features/authSlice';
 import { sendNotification } from '../utils/notifications';
+import { useForm } from 'react-hook-form';
+import { FORM_ERROR_MESSAGES, REGEX, RESPONSE_MESSAGES } from '../constants';
+import FormFieldError from '../components/shared/FormFieldError';
 
 export default function LoginPage() {
-    const [user, setUser] = useState({
-        email: '',
-        password: '',
-    });
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
-    const handleOnChange = (e) => {
-        setUser({
-            ...user,
-            [e.target.name]: e.target.value,
-        });
-    };
 
     const { mutate, isPending } = useMutation({
         mutationFn: async (user) => {
@@ -44,53 +39,64 @@ export default function LoginPage() {
             if (errors && errors.length > 0 && errors[0]?.msg) {
                 sendNotification('error', errors[0]?.msg);
             } else if (error?.response?.data?.code === 'ERROR') {
-                sendNotification(
-                    'warning',
-                    'Something went wrong. Please try again'
-                );
+                sendNotification('warning', RESPONSE_MESSAGES.SEVER_ERROR);
             }
         },
     });
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
-        const { ERRORS, IS_EMPTY } = VALIDATE_USER_DETAIL(user);
-
-        if (IS_EMPTY) {
-            return sendNotification('warning', 'Please fill all the fields');
-        }
-
-        if (ERRORS && ERRORS.length > 0) {
-            return sendNotification('error', ERRORS[0]);
-        }
-
-        mutate(user);
+    const onSubmit = (data) => {
+        if (!data) return;
+        mutate(data);
     };
-
     return (
         <section className="custom_container sectionCustomHeight   flex_center">
             <form
                 className="max-w-[400px] min-h-[500px] mx-auto text-lg p-14 rounded-xl space-y-8 shadow-lg"
-                onSubmit={handleSubmit}
+                onSubmit={handleSubmit(onSubmit)}
             >
                 <h2>Sign in</h2>
-                <Input
-                    label="email"
-                    name="email"
-                    handleOnChange={handleOnChange}
-                    value={user.email}
-                    placeholder="Enter your email"
-                />
+                <div className="space-y-4 text-xs">
+                    <label className="capitalize">Email</label>
+                    <input
+                        autoComplete="off"
+                        {...register('email', {
+                            required: {
+                                value: true,
+                                message: FORM_ERROR_MESSAGES.REQUIRED,
+                            },
+                            pattern: {
+                                value: REGEX.EMAIL,
+                                message: FORM_ERROR_MESSAGES.EMAIL.INVALID,
+                            },
+                        })}
+                        className="custom_input"
+                    />
+                    {errors.email && (
+                        <FormFieldError message={errors.email.message} />
+                    )}
+                </div>
 
-                <Input
-                    label="password"
-                    name="password"
-                    type="password"
-                    handleOnChange={handleOnChange}
-                    value={user.password}
-                    placeholder="Enter your password"
-                />
+                <div className="space-y-4 text-xs">
+                    <label className="capitalize">Password</label>
+                    <input
+                        autoComplete="off"
+                        {...register('password', {
+                            required: {
+                                value: true,
+                                message: FORM_ERROR_MESSAGES.REQUIRED,
+                            },
+                            minLength: {
+                                value: 3,
+                                message:
+                                    FORM_ERROR_MESSAGES.PASSWORD.MIN_LENGTH,
+                            },
+                        })}
+                        className="custom_input"
+                    />
+                    {errors.password && (
+                        <FormFieldError message={errors.password.message} />
+                    )}
+                </div>
 
                 <button type="submit" className="btn w-full">
                     {isPending ? 'Loading...' : 'Submit'}

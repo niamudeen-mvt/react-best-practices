@@ -29,7 +29,9 @@ export default function Navbar() {
     return (
         <header className="shadow-sm sticky top-0 z-50 bg-white">
             <div className="custom_container flex_between h-20">
-                <Link to="/">React Best Practices</Link>
+                <Link to="/">
+                    <p>React Best Practices</p>
+                </Link>
                 <nav
                     className={`flex_center  ${
                         !isNavOpen
@@ -51,7 +53,7 @@ export default function Navbar() {
                         ))}
 
                         {isLoggedIn && (
-                            <button className="btn" onClick={handleLogout}>
+                            <button className="grayBtn" onClick={handleLogout}>
                                 Logout
                             </button>
                         )}

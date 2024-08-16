@@ -12,7 +12,7 @@ export default function ProductCard({ product }) {
                 />
             </figure>
             <div>
-                <h3 className="text-xs sm:text-sm">{product.title}</h3>
+                <p>{product.title}</p>
             </div>
         </article>
     );

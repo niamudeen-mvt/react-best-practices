@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import './style.css';
 import { store } from './store';
 import { Provider } from 'react-redux';
 import { ToastContainerNotification } from './utils/notifications';
+import './style.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -25,5 +25,5 @@ root.render(
             <App />
             <ToastContainerNotification />
         </Provider>
-    </QueryClientProvider>,
+    </QueryClientProvider>
 );
