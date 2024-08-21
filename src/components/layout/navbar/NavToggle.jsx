@@ -11,13 +11,11 @@ export default function NavToggleButton({ isNavOpen, toggle }) {
                     size={24}
                 />
             ) : (
-                isNavOpen && (
-                    <HiBars3BottomRight
-                        className="cursor-pointer lg:hidden z-50"
-                        onClick={toggle}
-                        size={24}
-                    />
-                )
+                <HiBars3BottomRight
+                    className="cursor-pointer lg:hidden z-50"
+                    onClick={toggle}
+                    size={24}
+                />
             )}
         </>
     );

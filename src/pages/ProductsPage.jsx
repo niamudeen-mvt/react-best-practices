@@ -58,7 +58,7 @@ export default function ProductsPage() {
     if (isError) return <p>{error.message}</p>;
 
     return (
-        <section className="min-h-screen container mx-auto flex flex-col items-center space-y-10 p-8">
+        <section className="section flex-col space-y-10">
             {/* Input Search Component */}
             <div>
                 <form onSubmit={handleSubmit}>

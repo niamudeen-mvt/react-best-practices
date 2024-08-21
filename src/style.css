@@ -24,6 +24,20 @@ p {
     font-size: clamp(12px, 2vw, 14px);
 }
 
+/* custom css starts from here  */
+
+/*  for hiding the scrollbar */
+
+.hide_scrollbar {
+    scrollbar-width: none;
+}
+
+.sectionCustomHeight {
+    min-height: calc(100vh - 80px);
+}
+
+/* custom css ends  here  */
+
 @layer utilities {
     .custom_container {
         @apply container mx-auto  px-[8%];
@@ -48,18 +62,8 @@ p {
     .grayBtn {
         @apply text-xs bg-gray-100 py-3 px-8 rounded-md transition-all duration-300 ease-in-out;
     }
+
+    .section {
+        @apply sectionCustomHeight  custom_container flex_center  p-8;
+    }
 }
-
-/* custom css starts from here  */
-
-/*  for hiding the scrollbar */
-
-.hide_scrollbar {
-    scrollbar-width: none;
-}
-
-.sectionCustomHeight {
-    min-height: calc(100vh - 80px);
-}
-
-/* custom css ends  here  */

@@ -5,6 +5,7 @@ import LandingPage from '../pages/LandingPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import ProductsPage from '../pages/ProductsPage';
 import LoginPage from '../pages/LoginPage';
+import GalleryPage from '../pages/GalleryPage';
 
 export const ALL_ROUTES = [
     {
@@ -27,21 +28,30 @@ export const ALL_ROUTES = [
         title: 'Products',
         isPrivate: true,
     },
+    {
+        id: 4,
+        path: '/gallery-page',
+        element: <GalleryPage />,
+        title: 'Gallery',
+        isPrivate: true,
+        ishidden: true,
+    },
 ];
 
 export const PRIVATE_ROUTES =
-    ALL_ROUTES &&
-    ALL_ROUTES.filter((route) => route.isPrivate && !route.isHidden);
+    (ALL_ROUTES?.length > 0 &&
+        ALL_ROUTES.filter((route) => route.isPrivate && !route.ishidden)) ||
+    [];
 
 export const PUBLIC_ROUTES =
-    ALL_ROUTES &&
-    ALL_ROUTES.filter((menu) => !menu.isPrivate && !menu.isHidden);
+    (ALL_ROUTES?.length > 0 &&
+        ALL_ROUTES.filter((menu) => !menu.isPrivate && !menu.ishidden)) ||
+    [];
 
 export const _router = createBrowserRouter([
     {
-        path: '',
         element: <AppLayout />,
-        children: ALL_ROUTES,
+        children: [...PUBLIC_ROUTES, ...PRIVATE_ROUTES],
     },
     {
         path: '*',

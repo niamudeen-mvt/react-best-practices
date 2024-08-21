@@ -33,10 +33,9 @@ export default function Navbar() {
                     <p>React Best Practices</p>
                 </Link>
                 <nav
-                    className={`flex_center  ${
-                        !isNavOpen
-                            ? 'hidden lg:block'
-                            : 'fixed top-0 left-0 w-full h-full bg-white z-50'
+                    className={`hidden lg:block ${
+                        isNavOpen &&
+                        '!flex fixed top-0 left-0 w-full h-full z-50 flex_center bg-white'
                     }`}
                 >
                     <ul

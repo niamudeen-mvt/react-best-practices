@@ -49,7 +49,7 @@ export default function LoginPage() {
         mutate(data);
     };
     return (
-        <section className="custom_container sectionCustomHeight   flex_center">
+        <section className="section">
             <form
                 className="max-w-[400px] min-h-[500px] mx-auto text-lg p-14 rounded-xl space-y-8 shadow-lg"
                 onSubmit={handleSubmit(onSubmit)}
